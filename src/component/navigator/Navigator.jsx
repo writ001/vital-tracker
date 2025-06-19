@@ -5,7 +5,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { useNavigate } from 'react-router-dom';
 import _ from 'lodash';
-const Navigator = () => {
+const Navigator = ({onHam=false, closeHam=() => {}}) => {
     const navigate = useNavigate()
     const path = window.location.pathname
     const pathNavMap = {
@@ -29,9 +29,10 @@ const Navigator = () => {
     const navigateTo = (path, label) => {
         setActive(label)
         navigate(path)
+        closeHam()
     }
     return (
-        <div className="w-40 lg:w-fit bg-white shadow-md rounded-lg divide-y pb-8 pt-8 pl-4 pr-4 mr-4 fixed">
+        <div className={`w-40 lg:w-fit bg-white shadow-md rounded-lg divide-y pb-8 pt-8 pl-4 pr-4 mr-4 fixed ${onHam ? ' right-0' : ''}`}>
             {steps.map((step, index) => (
                 <div key={index}
                     className={`pt-4 pb-4 flex items-center ${step?.disabled ? 'cursor-not-allowed' : 'cursor-pointer'}

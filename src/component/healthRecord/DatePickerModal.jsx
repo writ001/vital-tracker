@@ -12,6 +12,7 @@ const DatePickerModal = ({ isOpen, setIsOpen, selectedDate, setSelectedDate }) =
                     <DatePicker
                         selected={date}
                         onChange={(date) => setDate(date)}
+                        maxDate={new Date()}
                         className="w-full border border-gray-300 p-2 rounded-md"
                         dateFormat="dd/MM/yyyy"
                     />

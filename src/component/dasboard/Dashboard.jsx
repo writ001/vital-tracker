@@ -1,9 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import ChartAndData from './ChartAndData';
+import AppointmentModal from './AppointmentModal';
+import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import { setPage } from '../../redux/slices/vitalSlice';
 const Dashboard = () => {
 
   const [packageSelect, setPackageSelect] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedName, setSelectedName] = useState('Dr. Nishant Aggarwal')
+  const [selectedDate, setSelectedDate] = useState(new Date('2025-07-12'))
+  const [selectedTime, setSelectedTime] = useState('6')
+  const [selectedPeriod, setSelectedPeriod] = useState('PM')
   const packages = [
     {
       title: "Heart Health package",
@@ -25,22 +34,29 @@ const Dashboard = () => {
     },
   ];
 
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    dispatch(setPage('Dashboard'))
+  }, [])
+
   return (
     <>
       {/* Dropdown row */}
       <div className="grid grid-rows-1 gap-2 p-3 rounded-lg w-96">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Member Profile Dropdown */}
-          <div>
+          <div className='w-4/5 sm:w-full'>
             <label htmlFor="memberProfile" className="block text-sm font-medium text-blue-700">
               Member profile
             </label>
-            <select id="memberProfile" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+            <select id="memberProfile" className="mt-1 block w-fit px-2 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
               <option>Mrs Ananya Singh</option>
             </select>
           </div>
           {/* Care Plans Dropdown */}
-          <div>
+          <div className='w-4/5 sm:w-full'>
             <label htmlFor="carePlans" className="block text-sm font-medium text-blue-700">
               Select care plans
             </label>
@@ -76,16 +92,20 @@ const Dashboard = () => {
           <MedicalServicesIcon color='primary' />
           <span>
             Next Appointment is on{" "}
-            <span className="text-blue-600 font-medium">12th Dec at 6 pm</span> with <strong>Dr. Nishant Aggarwal</strong>.
+            <span className="text-blue-600 font-medium">{moment(selectedDate).format("Do MMM")} at {selectedTime} {selectedPeriod.toLocaleLowerCase()}</span> with <strong>{selectedName}</strong>.
           </span>
         </div>
         {/*Change Button */}
-        <button className="mt-4 md:mt-0 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        <button onClick={() => setIsOpen(true)} className="mt-4 md:mt-0 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
           Request for change
         </button>
       </div>
       {/* Charts and data */}
       <ChartAndData />
+      <AppointmentModal isOpen={isOpen} setIsOpen={setIsOpen} selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate} selectedName={selectedName} setSelectedPeriod={setSelectedPeriod}
+        setSelectedName={setSelectedName} selectedTime={selectedTime} setSelectedTime={setSelectedTime}
+        selectedPeriod={selectedPeriod} />
     </>
   )
 }
