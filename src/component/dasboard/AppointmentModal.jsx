@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker'
+import { toast } from 'react-toastify'
 
 const AppointmentModal = ({ isOpen, setIsOpen, selectedDate, setSelectedDate, selectedTime,
     setSelectedTime, selectedPeriod, setSelectedPeriod, selectedName, setSelectedName }) => {
@@ -58,7 +59,7 @@ const AppointmentModal = ({ isOpen, setIsOpen, selectedDate, setSelectedDate, se
                     </div>
                     <div className="mt-4 flex justify-end">
                         <button
-                            onClick={() => { setSelectedDate(date); setSelectedName(name); setSelectedTime(time); setSelectedPeriod(period) ;setIsOpen(false); }}
+                            onClick={() => { setSelectedDate(date); setSelectedName(name); setSelectedTime(time); setSelectedPeriod(period) ;setIsOpen(false); toast.success('Appointment Updated')}}
                             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 mr-4"
                         >
                             Update
